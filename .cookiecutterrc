@@ -1,0 +1,70 @@
+# This file exists so you can easily regenerate your project.
+#
+# `cookiepatcher` is a convenient shim around `cookiecutter`
+# for regenerating projects (it will generate a .cookiecutterrc
+# automatically for any template). To use it:
+#
+#    pip install cookiepatcher
+#    cookiepatcher gh:ionelmc/cookiecutter-pylibrary pyfimtdd
+#
+# See:
+#    https://pypi.org/project/cookiepatcher
+#
+# Alternatively, you can run:
+#
+#    cookiecutter --overwrite-if-exists --config-file=pyfimtdd/.cookiecutterrc gh:ionelmc/cookiecutter-pylibrary
+
+default_context:
+
+    _extensions:               ['jinja2_time.TimeExtension']
+    _template:                 'https://github.com/ionelmc/cookiecutter-pylibrary.git'
+    allow_tests_inside_package: 'no'
+    appveyor:                  'yes'
+    c_extension_function:      'longest'
+    c_extension_module:        '_fimtdd'
+    c_extension_optional:      'no'
+    c_extension_support:       'no'
+    c_extension_test_pypi:     'no'
+    c_extension_test_pypi_username: 'MLRichter'
+    codacy:                    'no'
+    codacy_projectid:          '[Get ID from https://app.codacy.com/app/MLRichter/pyfimtdd/settings]'
+    codeclimate:               'no'
+    codecov:                   'yes'
+    command_line_interface:    'click'
+    command_line_interface_bin_name: 'pyfimtdd'
+    coveralls:                 'no'
+    coveralls_token:           '[Required for Appveyor, take it from https://coveralls.io/github/MLRichter/pyfimtdd]'
+    distribution_name:         'pyfimtdd'
+    email:                     'matrichter@uos.de'
+    full_name:                 'Mats L. Richter'
+    legacy_python:             'no'
+    license:                   'MIT license'
+    linter:                    'flake8'
+    package_name:              'fimtdd'
+    pre_commit:                'yes'
+    project_name:              'pyFIMTDD'
+    project_short_description: 'Python implementation for the Fast Incremental Model Tree for Drift Detection algorithm.'
+    pypi_badge:                'yes'
+    pypi_disable_upload:       'no'
+    release_date:              'today'
+    repo_hosting:              'github.com'
+    repo_hosting_domain:       'github.com'
+    repo_name:                 'pyfimtdd'
+    repo_username:             'MLRichter'
+    requiresio:                'yes'
+    scrutinizer:               'no'
+    setup_py_uses_setuptools_scm: 'no'
+    setup_py_uses_test_runner: 'no'
+    sphinx_docs:               'yes'
+    sphinx_docs_hosting:       'https://pyfimtdd.readthedocs.io/'
+    sphinx_doctest:            'no'
+    sphinx_theme:              'sphinx-rtd-theme'
+    test_matrix_configurator:  'no'
+    test_matrix_separate_coverage: 'no'
+    test_runner:               'pytest'
+    travis:                    'yes'
+    travis_osx:                'no'
+    version:                   '0.0.0'
+    website:                   '-'
+    year_from:                 '2021'
+    year_to:                   '2021'
