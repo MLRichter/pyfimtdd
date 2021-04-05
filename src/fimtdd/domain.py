@@ -7,7 +7,7 @@ import numpy as np
 class Predictor(ABC):
 
     def fit(self, X: np.ndarray, y: np.ndarray, is_alt: bool) -> "Predictor":
-        self(X, y)
+        self(X, y, is_alt)
         return self
 
     @abstractmethod
@@ -21,6 +21,9 @@ class Predictor(ABC):
     def __call__(self, X: np.ndarray, y: np.ndarray, is_alt: bool) -> np.ndarray:
         ...
 
+    def offspring(self) -> "Predictor":
+        ...
+
 
 class DriftDetector(Protocol):
 
@@ -30,16 +33,25 @@ class DriftDetector(Protocol):
     def detect_drift(self) -> bool:
         ...
 
+    def copy(self) -> "DriftDetector":
+        ...
+
 
 class NodeSplitter(Protocol):
 
     def update(self, X: np.ndarray, y: np.ndarray, is_alt: bool) -> bool:
         ...
 
-    def split(self, predictor: Predictor, is_alt: bool) -> Predictor:
+    def split(self, node: Predictor, predictor: Predictor, is_alt: bool) -> Predictor:
+        ...
+
+    def copy(self) -> "NodeSplitter":
         ...
 
 
 class SwappingCriterion(Protocol):
     def update(self, y: np.ndarray, y_pred: np.ndarray, alt_y_pred: np.ndarray) -> bool:
+        ...
+
+    def copy(self) -> "SwappingCriterion":
         ...

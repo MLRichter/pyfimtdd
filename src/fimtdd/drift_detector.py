@@ -24,3 +24,6 @@ class PageHinckleyDetector(DriftDetector):
 
     def detect_drift(self) -> bool:
         return (self._current_score_ - self._min_score_) > self.threshold
+
+    def copy(self) -> "PageHinckleyDetector":
+        return PageHinckleyDetector(self.threshold, self.alpha, self.min_samples)

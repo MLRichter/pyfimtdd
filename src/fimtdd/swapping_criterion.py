@@ -1,10 +1,11 @@
 from .domain import SwappingCriterion
 from attr import attrs, attrib
 import numpy as np
+from .domain import SwappingCriterion
 
 
 @attrs(auto_attribs=True, slots=True)
-class DecayingSquaredErrorSwapper:
+class DecayingSquaredErrorSwapper(SwappingCriterion):
 
     decay: float = 0.995
     check_intervall: int = 50
@@ -20,3 +21,6 @@ class DecayingSquaredErrorSwapper:
             return False
         else:
             return np.log(self._cumulative_squared_error / self._cumulative_squared_error_alt) > 0
+
+    def copy(self) -> "SwappingCriterion":
+        return DecayingSquaredErrorSwapper(self.decay, self.check_intervall)

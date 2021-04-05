@@ -17,7 +17,7 @@ class BinaryIntermediatePredictor(Predictor):
     left: Node
     right: Node
     binary_condition: Callable[[np.ndarray, Dict[bool, Node]], Node]
-    _mapping: Dict[bool, Node]
+    _mapping: Dict[bool, Node] = attrib(init=False)
 
     def predict(self, X: np.ndarray, is_alt: bool) -> np.ndarray:
         return self.binary_condition(X, self._mapping).predict(X, is_alt)

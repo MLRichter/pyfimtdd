@@ -29,5 +29,8 @@ class Node(Predictor):
                 self.predictor = self.alt_predictor
                 self.alt_predictor = None
         if self.node_splitter.update(X, y, is_alt):
-            self.predictor = self.node_splitter.split(self.predictor, is_alt)
+            self.predictor = self.node_splitter.split(self, self.predictor, is_alt)
         return y_pred
+
+    def offspring(self) -> "Predictor":
+        return self.predictor.offspring()
