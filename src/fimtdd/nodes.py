@@ -1,26 +1,33 @@
+from typing import Optional, Callable
+
 from attr import attrs
 
-
-@attrs(auto_attribs=True, slots=True)
-class Node:
-
-    is_root: bool = False
-    alpha: float = 0.05
-    gamma: float = 0.01
-    threshold: float = 50
-    n_min: int = 96
-    learn_rate: float = 0.01
-    verbose: bool = False
-
-    def set_root(self):
-        self.is_root = True
+from fimtdd.domain import Predictor, NodeSplitter, DriftDetector, SwappingCriterion
+import numpy as np
 
 
 @attrs(auto_attribs=True, slots=True)
-class IntermediateNode(Node):
-    ...
+class Node(Predictor):
 
+    predictor: Predictor
+    node_splitter: NodeSplitter
+    drift_detector: DriftDetector
+    swapping_criterion: SwappingCriterion
+    alt_predictor: Optional[Predictor]
+    predictor_factory: Callable[[Predictor], Predictor]
 
-@attrs(auto_attribs=True, slots=True)
-class LeafNode(Node):
-    ...
+    def predict(self, X: np.ndarray, is_alt: bool = False) -> np.ndarray:
+        return self.predictor.predict(X, is_alt)
+
+    def __call__(self, X: np.ndarray, y: np.ndarray, is_alt: bool = False) -> np.ndarray:
+        y_pred = self.predictor.fit_predict(X, y, is_alt)
+        if self.drift_detector.update(y, y_pred):
+            self.alt_predictor = self.predictor_factory(self.predictor)
+        if self.alt_predictor is not None:
+            alt_y_pred = self.alt_predictor.fit_predict(X, y, True)
+            if self.swapping_criterion.update(y, y_pred, alt_y_pred):
+                self.predictor = self.alt_predictor
+                self.alt_predictor = None
+        if self.node_splitter.update(X, y, is_alt):
+            self.predictor = self.node_splitter.split(self.predictor, is_alt)
+        return y_pred
